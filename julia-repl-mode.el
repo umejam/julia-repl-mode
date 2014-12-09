@@ -1,7 +1,7 @@
 (require 'julia-mode)
 
 (defcustom julia-repl-executable
-  "julia"
+  "julia -q"
   "Path to the Julia CLI."
   :group 'julia-mode)
 
@@ -23,18 +23,18 @@
   (unless dont-switch-p
     (pop-to-buffer "*julia-repl*")))
 
-(defun julia-send-region (start end)
+(defun julia-repl-send-region (start end)
   "Send the current region to the inferior julia process.
 START and END define region within current buffer"
   (interactive "r")
-  (julia-mode-run-repl julia-repl-executable t)
+  (run-julia julia-repl-executable t)
   (comint-send-region julia-repl-buffer start end)
   (comint-send-string julia-repl-buffer "\n"))
 
-(defun julia-send-buffer ()
+(defun julia-repl-send-buffer ()
   "Send the buffer to the Julia REPL process."
   (interactive)
-  (julia-mode-send-region (point-min) (point-max)))
+  (julia-repl-send-region (point-min) (point-max)))
 
 (defun kill-julia ()
   (interactive)
